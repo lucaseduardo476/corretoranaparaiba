@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Corretor de imóveis</title>
+<meta name="description" content="Como posso te ajudar? Escolha o seu caminho: comprar ou anunciar um imóvel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO DA PÁGINA DE ESCOLHA (porta de entrada do link na bio)
+   Tudo o que muda de um corretor para outro fica AQUI.
+   Troque os textos entre [colchetes], a foto, os destinos e as cores.
+   Não é preciso mexer em nada abaixo deste bloco.
+
+   Dicas:
+   - Foto: quadrada e pequena (ex.: 160x160). Pode ser um caminho local
+     ("fotos/eu.jpg") ou uma URL.
+   - Destinos dos botões: nome do arquivo da página ("clientes.html").
+     Os parâmetros da URL (como utm_source) são mantidos automaticamente.
+   - Ícones disponíveis: "casa", "chave", "placa".
+   - Para destacar uma palavra com "marca-texto", coloque-a entre *asteriscos*.
+   ===================================================================== */
+const CONFIG = {
+
+  tema: {
+    cores: {
+      fundo:         "#0e0d0b",  // fundo da página
+      superficie:    "#191815",  // fundo dos cartões
+      borda:         "#2a2823",  // bordas finas
+      texto:         "#f4f1ea",  // texto principal
+      textoSuave:    "#a7a196",  // textos secundários
+      destaque:      "#d6b062",  // cor da marca (botões, CRECI, detalhes)
+      textoDestaque: "#16120a"   // texto sobre a cor de destaque
+    },
+    fontes: {
+      titulos: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+      texto:   "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+      // Link do Google Fonts com as duas fontes acima ("" para usar só fontes do sistema)
+      googleFonts: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+    },
+    arredondamento: "20px"
+  },
+
+  corretor: {
+    nome:  "Irene Henriques",
+    foto:  "fotos/irene-abertura.jpg",
+    cargo: "Corretora de imóveis",
+    creci: "14916-F/PB",
+    cidade: "João Pessoa/PB"
+  },
+
+  abertura: {
+    frase: "Como posso te *ajudar*?"
+  },
+
+  // Os dois cartões, de cima para baixo (mesmo tamanho)
+  opcoes: [
+    {
+      rotulo:  "Para clientes",
+      botao:   "Quero comprar um imóvel",
+      destino: "clientes.html",
+      icone:   "casa"
+    },
+    {
+      rotulo:  "Para proprietários",
+      botao:   "Quero anunciar meu imóvel",
+      destino: "proprietarios.html",
+      icone:   "chave"
+    }
+  ],
+
+  rodape: {
+    aviso: "Valores e condições sujeitos a alteração sem aviso prévio."
+  },
+
+  // Dados usados no texto da Política de Privacidade
+  privacidade: {
+    atualizadaEm: "01/11/2026",
+    email:        "",
+    telefone:     "+5583996202797"
+  },
+
+  // true = pede ao Google para não mostrar esta página nas buscas (use em prévias/modelos).
+  // Para a página real do corretor, troque para false.
+  ocultarDoGoogle: false
+};
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background-color: var(--fundo);
+    background-image: radial-gradient(120% 60% at 50% -10%, color-mix(in srgb, var(--destaque) 16%, transparent), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--texto);
+    font: 400 16px/1.5 var(--fonte-texto);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    min-height: 100dvh; /* altura real da tela, descontando a barra do navegador do celular */
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  mark { background: none; color: var(--destaque); padding: 0; }
+  svg.i { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  :focus-visible { outline: 2px solid var(--destaque); outline-offset: 3px; }
+
+  /* Tudo cabe em uma tela: a página ocupa a altura toda e distribui o espaço */
+  .pagina {
+    max-width: 520px; margin: 0 auto;
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column; align-items: stretch;
+    padding: clamp(14px, 3.4vh, 32px) 16px calc(clamp(10px, 2vh, 20px) + env(safe-area-inset-bottom));
+    gap: clamp(10px, 2.6vh, 26px);
+  }
+
+  /* ---------- 1. Identificação (discreta) ---------- */
+  .ident { text-align: center; }
+  .avatar {
+    width: clamp(96px, 17vh, 140px); height: clamp(96px, 17vh, 140px); margin: 0 auto clamp(6px, 1.2vh, 10px);
+    border-radius: 50%; padding: 2px;
+    background: conic-gradient(from 210deg, var(--destaque), color-mix(in srgb, var(--destaque) 35%, #000), var(--destaque));
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 2px solid var(--fundo); background: var(--superficie); }
+  .nome { margin: 0; font: 700 clamp(18px, 3.4vh, 22px)/1.1 var(--fonte-titulos); letter-spacing: .06em; text-transform: uppercase; }
+  .cargo { margin: 4px 0 0; color: var(--texto-suave); font-size: 13px; line-height: 1.35; }
+  .cargo .creci { color: var(--destaque); font-weight: 700; white-space: nowrap; }
+  .cargo svg { width: 13px; height: 13px; margin: -2px 3px 0 0; vertical-align: middle; color: var(--destaque); }
+
+  /* ---------- 2. Frase de abertura ---------- */
+  .frase {
+    margin: 0; text-align: center; text-wrap: balance;
+    font: 700 clamp(30px, 6.4vh, 46px)/1.02 var(--fonte-titulos);
+    letter-spacing: .01em; text-transform: uppercase;
+  }
+
+  /* ---------- 3. Opções (dois cartões do mesmo tamanho) ---------- */
+  .opcoes { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: clamp(22px, 5vh, 40px); width: 100%; max-width: 340px; margin: 0 auto; }
+  .opcao { display: flex; flex-direction: column; gap: 8px; }
+  .op-rotulo {
+    display: flex; align-items: center; gap: 12px; margin: 0;
+    font: 700 12px/1 var(--fonte-texto); letter-spacing: .22em; text-transform: uppercase; color: var(--texto-suave);
+  }
+  .op-rotulo::before, .op-rotulo::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--borda)); }
+  .op-rotulo::after { background: linear-gradient(90deg, var(--borda), transparent); }
+
+  .botao {
+    min-height: 60px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--raio); border: 0;
+    background: var(--destaque); color: var(--texto-destaque);
+    box-shadow: 0 8px 24px -10px color-mix(in srgb, var(--destaque) 70%, transparent);
+    font: 700 clamp(15px, 2.4vh, 17px)/1.2 var(--fonte-texto); text-decoration: none; text-align: left;
+    transition: transform .15s ease, filter .15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .botao:hover { filter: brightness(1.06); }
+  .botao:active { transform: scale(.98); }
+  .botao .icone-box {
+    flex: none; width: 38px; height: 38px;
+    display: grid; place-items: center; border-radius: 14px;
+    background: color-mix(in srgb, var(--texto-destaque) 12%, transparent);
+    font-size: 20px;
+  }
+  .botao .txt { flex: 1; min-width: 0; text-wrap: balance; }
+  .botao .seta { font-size: 20px; opacity: .75; }
+
+  /* ---------- 4. Rodapé mínimo ---------- */
+  footer { text-align: center; color: var(--texto-suave); font-size: 12.5px; line-height: 1.4; }
+  footer p { margin: 0; }
+  footer a { display: inline-block; padding: 6px 8px; text-decoration: underline; text-underline-offset: 3px; }
+  footer .aviso { opacity: .85; }
+
+  /* ---------- Política de Privacidade ---------- */
+  dialog {
+    width: min(640px, 100%); max-height: 100%; height: 100%; margin: 0 auto; padding: 0;
+    border: 0; background: var(--fundo); color: var(--texto);
+  }
+  @media (min-width: 700px) { dialog { height: auto; max-height: calc(100% - 64px); margin: 32px auto; border: 1px solid var(--borda); border-radius: var(--raio); } }
+  dialog::backdrop { background: rgba(0,0,0,.7); backdrop-filter: blur(3px); }
+  .pp-topo { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px 14px 22px; background: var(--fundo); border-bottom: 1px solid var(--borda); }
+  .pp-topo h2 { margin: 0; font: 700 22px/1.1 var(--fonte-titulos); text-transform: uppercase; letter-spacing: .02em; }
+  .pp-fechar { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--borda); background: transparent; color: var(--texto); font-size: 20px; cursor: pointer; }
+  .pp-corpo { padding: 8px 22px 32px; font-size: 15px; color: color-mix(in srgb, var(--texto) 86%, var(--fundo)); }
+  .pp-corpo h3 { margin: 22px 0 6px; font-size: 16px; color: var(--texto); }
+  .pp-corpo p, .pp-corpo ul { margin: 0 0 10px; }
+  .pp-corpo ul { padding-left: 20px; }
+
+  /* Telas muito baixas (celulares pequenos): compacta um pouco mais */
+  @media (max-height: 560px) {
+    .cargo { font-size: 12px; }
+    .botao { min-height: 54px; }
+    footer { font-size: 11.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<main class="pagina">
+  <header class="ident" id="ident"></header>
+  <h2 class="frase" id="frase"></h2>
+  <nav class="opcoes" id="opcoes" aria-label="Escolha como posso te ajudar"></nav>
+  <footer id="rodape"></footer>
+</main>
+
+<dialog id="privacidade" aria-labelledby="pp-titulo">
+  <div class="pp-topo">
+    <h2 id="pp-titulo">Política de Privacidade</h2>
+    <button class="pp-fechar" id="pp-fechar" aria-label="Fechar">✕</button>
+  </div>
+  <div class="pp-corpo" id="pp-corpo"></div>
+</dialog>
+
+<script>
+(function () {
+  const C = CONFIG;
+  const $ = (id) => document.getElementById(id);
+
+  /* ---------- utilitários ---------- */
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmt = (s) => esc(s).replace(/\*(.+?)\*/g, "<mark>$1</mark>");
+  // Destinos internos (caminho relativo) levam junto os parâmetros da URL, como utm_source
+  const destino = (d) => /^[a-z][a-z0-9+.-]*:|^\/\/|^#/i.test(d) ? d : d + location.search;
+
+  const P = {
+    casa:  '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+    chave: '<path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/>',
+    placa: '<path d="M12 13v8"/><path d="M12 3v3"/><path d="M18 6H6a1 1 0 0 0-.8.4l-2.3 3.2a1 1 0 0 0 0 1.2l2.3 3.2a1 1 0 0 0 .8.4h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/>',
+    escudo: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+    dir:   '<path d="m9 18 6-6-6-6"/>'
+  };
+  const ic = (n, cls = "") => `<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || P.casa}</svg>`;
+
+  // Imagem que não carregar vira um bloco neutro com a cor do tema
+  document.addEventListener("error", (e) => {
+    const img = e.target;
+    if (img.tagName !== "IMG" || img.dataset.falhou) return;
+    img.dataset.falhou = "1";
+    img.src = "data:image/svg+xml," + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="${C.tema.cores.superficie}"/></svg>`);
+  }, true);
+
+  /* ---------- tema ---------- */
+  const t = C.tema, r = document.documentElement.style;
+  const mapa = { fundo: "--fundo", superficie: "--superficie", borda: "--borda", texto: "--texto", textoSuave: "--texto-suave", destaque: "--destaque", textoDestaque: "--texto-destaque" };
+  for (const k in mapa) r.setProperty(mapa[k], t.cores[k]);
+  r.setProperty("--fonte-titulos", t.fontes.titulos);
+  r.setProperty("--fonte-texto", t.fontes.texto);
+  r.setProperty("--raio", t.arredondamento);
+  if (t.fontes.googleFonts) {
+    const l = document.createElement("link");
+    l.rel = "stylesheet"; l.href = t.fontes.googleFonts;
+    document.head.appendChild(l);
+  }
+  const meta = document.createElement("meta");
+  meta.name = "theme-color"; meta.content = t.cores.fundo;
+  document.head.appendChild(meta);
+  if (C.ocultarDoGoogle) {
+    const robots = document.createElement("meta");
+    robots.name = "robots"; robots.content = "noindex, nofollow";
+    document.head.appendChild(robots);
+  }
+
+  /* ---------- 1. Identificação ---------- */
+  const k = C.corretor;
+  document.title = `${k.nome} · ${k.cargo} · CRECI ${k.creci}`;
+  $("ident").innerHTML = `
+    <div class="avatar"><img src="${esc(k.foto)}" alt="Foto de ${esc(k.nome)}" width="140" height="140" fetchpriority="high"></div>
+    <h1 class="nome">${esc(k.nome)}</h1>
+    <p class="cargo">${esc(k.cargo)} · <span class="creci">${ic("escudo")}CRECI ${esc(k.creci)}</span></p>`;
+
+  /* ---------- 2. Frase de abertura ---------- */
+  $("frase").innerHTML = fmt(C.abertura.frase);
+
+  /* ---------- 3. Opções ---------- */
+  $("opcoes").innerHTML = C.opcoes.map((o) => `
+    <div class="opcao">
+      <p class="op-rotulo">${esc(o.rotulo)}</p>
+      <a class="botao" href="${esc(destino(o.destino))}">
+        <span class="icone-box">${ic(o.icone)}</span>
+        <span class="txt">${esc(o.botao)}</span>
+        ${ic("dir", "seta")}
+      </a>
+    </div>`).join("");
+
+  /* ---------- 4. Rodapé ---------- */
+  $("rodape").innerHTML = `
+    <p><a href="#privacidade">Política de Privacidade</a></p>
+    <p class="aviso">${esc(C.rodape.aviso)}</p>`;
+
+  /* ---------- Política de Privacidade ---------- */
+  const V = C.privacidade;
+  const contato = [V.email && `e-mail <strong>${esc(V.email)}</strong>`, V.telefone && `telefone <strong>${esc(V.telefone)}</strong>`].filter(Boolean).join(" ou ");
+  $("pp-corpo").innerHTML = `
+    <p><small>Última atualização: ${esc(V.atualizadaEm)}</small></p>
+    <h3>Quem é o responsável</h3>
+    <p>${esc(k.nome)}, ${esc(k.cargo.toLowerCase())}, CRECI ${esc(k.creci)}, atuando em ${esc(k.cidade)}. Contato: ${contato}.</p>
+    <h3>Quais dados esta página coleta</h3>
+    <p>Nenhum diretamente. Esta página não tem formulários, cadastro nem área de login. Ela apenas leva você para a página que combina com o que você procura.</p>
+    <h3>Quando você entra em contato</h3>
+    <p>Nas páginas seguintes, ao tocar em um botão de WhatsApp, e-mail ou ligação, você inicia a conversa por iniciativa própria. As informações que você compartilhar são usadas apenas para responder ao seu contato, apresentar imóveis ou conduzir a venda do seu imóvel, conforme o seu interesse.</p>
+    <h3>Compartilhamento</h3>
+    <p>Seus dados não são vendidos nem cedidos para terceiros. Durante uma negociação, poderão ser compartilhados somente o necessário com as partes envolvidas (proprietário, imobiliária parceira, cartório ou banco), com seu conhecimento.</p>
+    <h3>Serviços de terceiros</h3>
+    <p>A hospedagem desta página e os serviços que entregam fontes e imagens podem registrar dados técnicos, como endereço IP e tipo de navegador.</p>
+    <h3>Cookies</h3>
+    <p>Esta página não usa cookies de rastreamento ou publicidade.</p>
+    <h3>Seus direitos (LGPD)</h3>
+    <p>Conforme a Lei nº 13.709/2018, você pode pedir a qualquer momento acesso, correção ou exclusão dos seus dados, ou retirar seu consentimento, pelos contatos acima.</p>`;
+
+  const dlg = $("privacidade");
+  const abrirPP = () => { if (location.hash === "#privacidade" && !dlg.open) dlg.showModal(); };
+  const fecharPP = () => { if (dlg.open) dlg.close(); };
+  dlg.addEventListener("close", () => { if (location.hash === "#privacidade") history.replaceState(null, "", location.pathname + location.search); });
+  $("pp-fechar").addEventListener("click", fecharPP);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) fecharPP(); });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest('a[href="#privacidade"]')) return;
+    e.preventDefault();
+    try { history.pushState(null, "", "#privacidade"); } catch (_) {}
+    if (!dlg.open) dlg.showModal();
+  });
+  window.addEventListener("hashchange", abrirPP);
+  abrirPP(); // permite compartilhar o link direto: .../index.html#privacidade
+})();
+</script>
+</body>
+</html>
